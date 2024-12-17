@@ -1,16 +1,14 @@
-# prak8
+# ПКС
 
-A new Flutter project.
+# Акперов Руслан ЭФБО-04-22
 
-## Getting Started
+#ПР10
 
-This project is a starting point for a Flutter application.
+https://github.com/user-attachments/assets/79a3b13a-23a7-4604-b31f-9de1cd4349f9
 
-A few resources to get you started if this is your first Flutter project:
+## После всех действий в видео 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![image](https://github.com/user-attachments/assets/0f952d66-5f67-4265-9c59-207237e12905)
+![image](https://github.com/user-attachments/assets/2cc44af9-9dc5-4f09-bcf4-965d2e3c6bdb)
+![image](https://github.com/user-attachments/assets/d3c863f8-57bf-4da1-8802-6800baa54e8e)
+![image](https://github.com/user-attachments/assets/d85e5d20-d0bb-4e4f-8aca-c8e6f43b9e4c)

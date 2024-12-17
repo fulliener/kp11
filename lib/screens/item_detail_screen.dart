@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prak8/api_service.dart';
 import 'package:prak8/models/items.dart';
 import 'package:prak8/screens/edit_item_screen.dart';
+import 'package:prak8/auth/auth_service.dart';
 
 class ItemPage extends StatefulWidget {
   const ItemPage({super.key, required this.index, required this.navToShopCart});
@@ -13,6 +14,7 @@ class ItemPage extends StatefulWidget {
 }
 
 class _ItemPageState extends State<ItemPage> {
+  final userEmail = AuthService().getCurrentUserEmail();
   late Future<Items> item;
   late Future<Items> updated_item;
   int count = 0;
@@ -22,8 +24,8 @@ class _ItemPageState extends State<ItemPage> {
   @override
   void initState() {
     super.initState();
-    item = ApiService().getProductsByID(widget.index);
-    ApiService().getProductsByID(widget.index).then(
+    item = ApiService().getProductsByID(widget.index, userEmail!);
+    ApiService().getProductsByID(widget.index, userEmail!).then(
           (value) => {
         count = value.count,
         favorite = value.favorite,
@@ -34,8 +36,8 @@ class _ItemPageState extends State<ItemPage> {
 
   void _refreshData() {
     setState(() {
-      item = ApiService().getProductsByID(widget.index);
-      ApiService().getProductsByID(widget.index).then(
+      item = ApiService().getProductsByID(widget.index, userEmail!);
+      ApiService().getProductsByID(widget.index, userEmail!).then(
             (value) => {
           count = value.count,
           favorite = value.favorite,
@@ -71,7 +73,7 @@ class _ItemPageState extends State<ItemPage> {
           count: this_item.count);
       ApiService().updateProductStatus(new_item);
     } else {
-      ApiService().deleteProductFavorite(1, this_item.id);
+      ApiService().deleteProductFavorite(userEmail!, this_item.id);
     }
     setState(() {
       favorite = !favorite;
@@ -88,7 +90,7 @@ class _ItemPageState extends State<ItemPage> {
         favorite: this_item.favorite,
         shopcart: !this_item.shopcart,
         count: !this_item.shopcart ? 1 : 0);
-    ApiService().addProductShopCart(new_item, 1);
+    ApiService().addProductShopCart(new_item, userEmail!);
     setState(() {
       shopcart = !shopcart;
       count = 1;
@@ -169,7 +171,7 @@ class _ItemPageState extends State<ItemPage> {
         favorite: this_item.favorite,
         shopcart: this_item.shopcart,
         count: this_item.count + 1);
-    ApiService().updateProductShopCart(new_item, 1);
+    ApiService().updateProductShopCart(new_item, userEmail!);
     setState(() {
       count += 1;
     });
@@ -177,7 +179,7 @@ class _ItemPageState extends State<ItemPage> {
 
   void decrement(Items this_item) {
     if (count == 1) {
-      ApiService().deleteProductShopCart(1, this_item.id);
+      ApiService().deleteProductShopCart(userEmail!, this_item.id);
     } else {
       Items new_item = Items(
           id: this_item.id,
@@ -188,7 +190,7 @@ class _ItemPageState extends State<ItemPage> {
           favorite: this_item.favorite,
           shopcart: this_item.shopcart,
           count: this_item.count - 1);
-      ApiService().updateProductShopCart(new_item, 1);
+      ApiService().updateProductShopCart(new_item, userEmail!);
     }
 
     setState(() {
@@ -467,7 +469,8 @@ class _ItemPageState extends State<ItemPage> {
                                                       .circular(5.0),
                                                   border: Border.all(
                                                       color: const Color.fromRGBO(
-                                                          255, 255, 255, 1.0), width: 2),
+                                                          255, 255, 255, 1.0),
+                                                      width: 2),
                                                 ),
                                                 child: Padding(
                                                   padding:

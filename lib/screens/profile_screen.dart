@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prak8/screens/edit_profile_screen.dart';
 import 'package:prak8/api_service.dart';
 import 'package:prak8/models/person.dart';
+import 'package:prak8/auth/auth_service.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -11,17 +12,21 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final authService = AuthService();
+  final userEmail = AuthService().getCurrentUserEmail();
   late Future<Person> person;
+  late Future<int> userId;
 
   @override
   void initState() {
     super.initState();
-    person = ApiService().getUserByID(1);
+
+    person = ApiService().getUserByID(userEmail);
   }
 
   void _refreshData() {
     setState(() {
-      person = ApiService().getUserByID(1);
+      person = ApiService().getUserByID(userEmail);
     });
   }
 
@@ -33,12 +38,19 @@ class _ProfilePageState extends State<ProfilePage> {
     _refreshData();
   }
 
+  void logout() async {
+    await authService.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('Профиль'),
+          actions: [
+            IconButton(onPressed: logout, icon: const Icon(Icons.logout))
+          ],
           backgroundColor: Colors.grey[300],
         ),
         body: FutureBuilder<Person>(
@@ -101,7 +113,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 style: const TextStyle(fontSize: 16.0),
                               ),
                             ),
-                            Padding(
+                            person.phone != 'null'
+                                ? Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Expanded(
                                     child: Align(
@@ -110,7 +123,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         'Телефон: ${person.phone}',
                                         style: const TextStyle(fontSize: 14.0),
                                       ),
-                                    ))),
+                                    )))
+                                : const SizedBox(),
                             Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Expanded(

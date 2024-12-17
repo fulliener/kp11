@@ -9,9 +9,9 @@ class ApiService {
 
   final ip = '10.0.2.2';
 
-  Future<List<Items>> getProducts() async {
+  Future<List<Items>> getProducts(String email) async {
     try {
-      final response = await _dio.get('http://${ip}:8080/products');
+      final response = await _dio.get('http://$ip:8080/products/$email');
       if (response.statusCode == 200) {
         List<Items> products = (response.data as List)
             .map((product) => Items.fromJson(product))
@@ -26,8 +26,8 @@ class ApiService {
     }
   }
 
-  Future<Items> getProductsByID(int index) async {
-    final link = 'http://${ip}:8080/products/${index.toString()}';
+  Future<Items> getProductsByID(int index, String email) async {
+    final link = 'http://${ip}:8080/products/$email/${index.toString()}';
     try {
       final response = await _dio.get(link);
       if (response.statusCode == 200) {
@@ -102,7 +102,7 @@ class ApiService {
     }
   }
 
-  Future<List<Items>> getShopCartProducts(user_id) async {
+  Future<List<Items>> getShopCartProducts(String user_id) async {
     try {
       final response = await _dio.get('http://${ip}:8080/cart/$user_id');
       if (response.statusCode == 200) {
@@ -119,7 +119,7 @@ class ApiService {
     }
   }
 
-  Future<void> addProductShopCart(Items item, user_id) async {
+  Future<void> addProductShopCart(Items item, String user_id) async {
     final link = 'http://${ip}:8080/cart/$user_id';
     try {
       final response = await _dio.post(link, data: {
@@ -142,7 +142,7 @@ class ApiService {
     }
   }
 
-  Future<void> updateProductShopCart(Items item, user_id) async {
+  Future<void> updateProductShopCart(Items item, String user_id) async {
     final link = 'http://${ip}:8080/cart/$user_id';
     try {
       final response = await _dio.put(link, data: {
@@ -165,7 +165,7 @@ class ApiService {
     }
   }
 
-  Future<void> deleteProductShopCart(int user_id, int product_id) async {
+  Future<void> deleteProductShopCart(String user_id, int product_id) async {
     final link = 'http://${ip}:8080/cart/$user_id/$product_id';
     try {
       final response = await _dio.delete(link);
@@ -179,7 +179,7 @@ class ApiService {
     }
   }
 
-  Future<List<Items>> getFavoriteProducts(user_id) async {
+  Future<List<Items>> getFavoriteProducts(String user_id) async {
     try {
       final response = await _dio.get('http://${ip}:8080/favorites/$user_id');
       if (response.statusCode == 200) {
@@ -196,7 +196,7 @@ class ApiService {
     }
   }
 
-  Future<void> addProductFavorite(Items item, user_id) async {
+  Future<void> addProductFavorite(Items item, String user_id) async {
     final link = 'http://${ip}:8080/favorites/$user_id';
     try {
       final response = await _dio.post(link, data: {
@@ -219,7 +219,7 @@ class ApiService {
     }
   }
 
-  Future<void> deleteProductFavorite(int user_id, int product_id) async {
+  Future<void> deleteProductFavorite(String user_id, int product_id) async {
     final link = 'http://${ip}:8080/favorites/$user_id/$product_id';
     try {
       final response = await _dio.delete(link);
@@ -233,7 +233,7 @@ class ApiService {
     }
   }
 
-  Future<Person> getUserByID(int index) async {
+  Future<Person> getUserByID(String? index) async {
     final link = 'http://${ip}:8080/users/$index';
     try {
       final response = await _dio.get(link);
@@ -257,6 +257,23 @@ class ApiService {
         'Image': item.image,
         'Phone': item.phone,
         'Mail': item.mail,
+      });
+      if (response.statusCode == 200) {
+        return;
+      } else {
+        throw Exception('Failed to load products');
+      }
+    } catch (e) {
+      throw Exception('Error fetching products: $e');
+    }
+  }
+
+  Future<void> addNewUser(String name, String mail) async {
+    final link = 'http://${ip}:8080/users';
+    try {
+      final response = await _dio.post(link, data: {
+        'Name': name,
+        'Mail': mail,
       });
       if (response.statusCode == 200) {
         return;

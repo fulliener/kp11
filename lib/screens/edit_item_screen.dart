@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prak8/api_service.dart';
 import 'package:prak8/models/items.dart';
+import 'package:prak8/auth/auth_service.dart';
 
 class EditProductPage extends StatefulWidget {
   const EditProductPage(BuildContext context, {super.key, required this.index});
@@ -11,6 +12,7 @@ class EditProductPage extends StatefulWidget {
 }
 
 class _EditProductPageState extends State<EditProductPage> {
+  final userEmail = AuthService().getCurrentUserEmail();
   final TextEditingController _addController1 = TextEditingController();
   final TextEditingController _addController2 = TextEditingController();
   final TextEditingController _addController3 = TextEditingController();
@@ -23,7 +25,7 @@ class _EditProductPageState extends State<EditProductPage> {
   @override
   void initState() {
     super.initState();
-    ApiService().getProductsByID(widget.index).then((value) => {
+    ApiService().getProductsByID(widget.index, userEmail!).then((value) => {
       _addController1.text = value.name,
       _addController2.text = value.image,
       _addController3.text = value.cost.toString(),
@@ -177,7 +179,7 @@ class _EditProductPageState extends State<EditProductPage> {
                       style:
                       const TextStyle(fontSize: 14.0, color: Colors.black),
                       decoration: const InputDecoration(
-                        fillColor: const Color.fromARGB(255, 255, 246, 218),
+                        fillColor: const Color.fromARGB(255, 255, 255, 255),
                         hintText: 'Цена товара',
                         hintStyle:
                         const TextStyle(fontSize: 14.0, color: Colors.grey),

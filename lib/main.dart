@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:prak8/screens/favorites_screen.dart';
-import 'package:prak8/screens/products_screen.dart';
-import 'package:prak8/screens/profile_screen.dart';
-import 'package:badges/badges.dart' as badges;
-import 'package:prak8/screens/shop_cart_screen.dart';
-import 'package:prak8/api_service.dart';
-import 'package:prak8/models/items.dart';
+import 'package:prak8/auth/auth_gate.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+    url: 'https://zatwiikvmqwlfdwwufnb.supabase.co',
+    anonKey:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphdHdpaWt2bXF3bGZkd3d1Zm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ0MDAwMTcsImV4cCI6MjA0OTk3NjAxN30.cCIpAGrqg7rqrpFiT_aN4Nyb47uykmTlk6XKeZXO_nA',
+  );
   runApp(const MyApp());
 }
 
@@ -20,81 +21,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int selectedIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    widgetOptions = [
-      ItemsPage(navToShopCart: (i) => onTab(i)),
-      FavoritePage(navToShopCart: (i) => onTab(i)),
-      ShopCartPage(navToShopCart: (i) => onTab(i)),
-      const ProfilePage()
-    ];
-  }
-  /*
-  int count = ShoppingCart.fold(0, (sum, item) => sum + item.count);
-
-  void updateCount() {
-    setState(() {
-      count = ShoppingCart.fold(0, (sum, item) => sum + item.count);
-    });
-  }
-  */
-
-  void onTab(int i) {
-    setState(() {
-      selectedIndex = i;
-    });
-  }
-
-  static List<Widget> widgetOptions = <Widget>[];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: widgetOptions.elementAt(selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey[200],
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Главная',
-              backgroundColor: Colors.white),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Избранное',
-              backgroundColor: Colors.white),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart_rounded),
-              label: 'Корзина',
-              backgroundColor: Colors.white),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Профиль',
-              backgroundColor: Colors.white)
-        ],
-        currentIndex: selectedIndex,
-        selectedItemColor: Colors.grey[800],
-        unselectedItemColor: Colors.grey[500],
-        onTap: onTab,
-      ),
+      home: AuthGate(),
     );
   }
 }

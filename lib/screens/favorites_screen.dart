@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prak8/screens/item_detail_screen.dart';
 import 'package:prak8/api_service.dart';
 import 'package:prak8/models/items.dart';
+import 'package:prak8/auth/auth_service.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({super.key, required this.navToShopCart});
@@ -13,29 +14,30 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
+  final userEmail = AuthService().getCurrentUserEmail();
   late Future<List<Items>> ItemsFavList;
   late List<Items> UpdatedItemsFavList;
 
   @override
   void initState() {
     super.initState();
-    ItemsFavList = ApiService().getFavoriteProducts(1);
-    ApiService().getFavoriteProducts(1).then(
+    ItemsFavList = ApiService().getFavoriteProducts(userEmail!);
+    ApiService().getFavoriteProducts(userEmail!).then(
           (value) => {UpdatedItemsFavList = value},
     );
   }
 
   void _refreshData() {
     setState(() {
-      ItemsFavList = ApiService().getFavoriteProducts(1);
-      ApiService().getFavoriteProducts(1).then(
+      ItemsFavList = ApiService().getFavoriteProducts(userEmail!);
+      ApiService().getFavoriteProducts(userEmail!).then(
             (value) => {UpdatedItemsFavList = value},
       );
     });
   }
 
   void AddFavorite(Items this_item) {
-    ApiService().deleteProductFavorite(1, this_item.id);
+    ApiService().deleteProductFavorite(userEmail!, this_item.id);
 
     setState(() {
       _refreshData();
@@ -65,7 +67,7 @@ class _FavoritePageState extends State<FavoritePage> {
         favorite: this_item.favorite,
         shopcart: !this_item.shopcart,
         count: 1);
-    ApiService().addProductShopCart(new_item, 1);
+    ApiService().addProductShopCart(new_item, userEmail!);
     setState(() {
       UpdatedItemsFavList.elementAt(
           UpdatedItemsFavList.indexWhere((el) => el.id == this_item.id))
@@ -97,7 +99,7 @@ class _FavoritePageState extends State<FavoritePage> {
   void decrement(Items this_item) {
     final count = this_item.count;
     if (count == 1) {
-      ApiService().deleteProductShopCart(1, this_item.id);
+      ApiService().deleteProductShopCart(userEmail!, this_item.id);
     } else {
       Items new_item = Items(
           id: this_item.id,
@@ -108,7 +110,7 @@ class _FavoritePageState extends State<FavoritePage> {
           favorite: this_item.favorite,
           shopcart: this_item.shopcart,
           count: this_item.count - 1);
-      ApiService().updateProductShopCart(new_item, 1);
+      ApiService().updateProductShopCart(new_item, userEmail!);
     }
     setState(() {
       if (count == 1) {

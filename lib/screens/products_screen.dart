@@ -3,6 +3,7 @@ import 'package:prak8/screens/add_item_screen.dart';
 import 'package:prak8/screens/item_detail_screen.dart';
 import 'package:prak8/api_service.dart';
 import 'package:prak8/models/items.dart';
+import 'package:prak8/auth/auth_service.dart';
 
 class ItemsPage extends StatefulWidget {
   const ItemsPage({super.key, required this.navToShopCart});
@@ -14,22 +15,23 @@ class ItemsPage extends StatefulWidget {
 }
 
 class _ItemsPageState extends State<ItemsPage> {
+  final userEmail = AuthService().getCurrentUserEmail();
   late Future<List<Items>> ItemsList;
   late List<Items> UpdatedItemsList;
 
   @override
   void initState() {
     super.initState();
-    ItemsList = ApiService().getProducts();
-    ApiService().getProducts().then(
+    ItemsList = ApiService().getProducts(userEmail!);
+    ApiService().getProducts(userEmail!).then(
           (value) => {UpdatedItemsList = value},
     );
   }
 
   void _refreshData() {
     setState(() {
-      ItemsList = ApiService().getProducts();
-      ApiService().getProducts().then(
+      ItemsList = ApiService().getProducts(userEmail!);
+      ApiService().getProducts(userEmail!).then(
             (value) => {UpdatedItemsList = value},
       );
     });
@@ -47,7 +49,7 @@ class _ItemsPageState extends State<ItemsPage> {
         favorite: !this_item.favorite,
         shopcart: this_item.shopcart,
         count: this_item.count);
-    ApiService().addProductFavorite(new_item, 1);
+    ApiService().addProductFavorite(new_item, userEmail!);
     setState(() {
       UpdatedItemsList.elementAt(
           UpdatedItemsList.indexWhere((el) => el.id == this_item.id))
@@ -68,7 +70,7 @@ class _ItemsPageState extends State<ItemsPage> {
           count: this_item.count);
       ApiService().updateProductStatus(new_item);
     } else {
-      ApiService().deleteProductFavorite(1, this_item.id);
+      ApiService().deleteProductFavorite(userEmail!, this_item.id);
     }
     setState(() {
       UpdatedItemsList.elementAt(
@@ -110,7 +112,7 @@ class _ItemsPageState extends State<ItemsPage> {
         favorite: this_item.favorite,
         shopcart: this_item.shopcart,
         count: this_item.count + 1);
-    ApiService().updateProductShopCart(new_item, 1);
+    ApiService().updateProductShopCart(new_item, userEmail!);
     setState(() {
       UpdatedItemsList.elementAt(
           UpdatedItemsList.indexWhere((el) => el.id == this_item.id))
@@ -121,7 +123,7 @@ class _ItemsPageState extends State<ItemsPage> {
   void decrement(Items this_item) {
     final count = this_item.count;
     if (count == 1) {
-      ApiService().deleteProductShopCart(1, this_item.id);
+      ApiService().deleteProductShopCart(userEmail!, this_item.id);
     } else {
       Items new_item = Items(
           id: this_item.id,
@@ -132,7 +134,7 @@ class _ItemsPageState extends State<ItemsPage> {
           favorite: this_item.favorite,
           shopcart: this_item.shopcart,
           count: this_item.count - 1);
-      ApiService().updateProductShopCart(new_item, 1);
+      ApiService().updateProductShopCart(new_item, userEmail!);
     }
     setState(() {
       if (count == 1) {

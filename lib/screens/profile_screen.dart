@@ -28,7 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void navToEdit(BuildContext context) async {
     await Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const EditPage()),
+      MaterialPageRoute(builder: (context) => EditPage()),
     );
     _refreshData();
   }
@@ -45,7 +45,7 @@ class _ProfilePageState extends State<ProfilePage> {
             future: person,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return CircularProgressIndicator();
               } else if (snapshot.hasError) {
                 return Scaffold(
                     backgroundColor: Colors.white,
@@ -59,7 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     appBar: AppBar(
                       backgroundColor: Colors.grey[300],
                     ),
-                    body: const Center(child: Text('No product found')));
+                    body: Center(child: Text('No product found')));
               }
 
               final person = snapshot.data!;

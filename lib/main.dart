@@ -20,11 +20,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.light(
-          primary: Colors.grey[800]!, // Добавлен оператор !, чтобы указать, что значение не null
-          secondary: Colors.grey[600]!, // То же самое
-        ),
-        scaffoldBackgroundColor: Colors.white, // Фон приложения белый
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
         useMaterial3: true,
       ),
       home: const MyHomePage(),
@@ -52,6 +48,15 @@ class _MyHomePageState extends State<MyHomePage> {
       const ProfilePage()
     ];
   }
+  /*
+  int count = ShoppingCart.fold(0, (sum, item) => sum + item.count);
+
+  void updateCount() {
+    setState(() {
+      count = ShoppingCart.fold(0, (sum, item) => sum + item.count);
+    });
+  }
+  */
 
   void onTab(int i) {
     setState(() {
@@ -66,12 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: widgetOptions.elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey[200]!, // Исправлено
+        backgroundColor: Colors.grey[200],
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Главная',
-              backgroundColor: Colors.white), // Белый фон для кнопок
+              backgroundColor: Colors.white),
           BottomNavigationBarItem(
               icon: Icon(Icons.favorite),
               label: 'Избранное',
@@ -86,8 +91,8 @@ class _MyHomePageState extends State<MyHomePage> {
               backgroundColor: Colors.white)
         ],
         currentIndex: selectedIndex,
-        selectedItemColor: Colors.grey[800]!, // Исправлено
-        unselectedItemColor: Colors.grey[500]!, // Исправлено
+        selectedItemColor: Colors.grey[800],
+        unselectedItemColor: Colors.grey[500],
         onTap: onTab,
       ),
     );

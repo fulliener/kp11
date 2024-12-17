@@ -70,7 +70,7 @@ class _EditProductPageState extends State<EditProductPage> {
           backgroundColor: Colors.grey[200],
         ),
         body: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
+            physics: BouncingScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -83,7 +83,7 @@ class _EditProductPageState extends State<EditProductPage> {
                       decoration: const InputDecoration(
                         hintText: 'Название товара',
                         hintStyle:
-                        TextStyle(fontSize: 14.0, color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, color: Colors.grey),
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                                 color: Color.fromRGBO(158, 158, 158, 1.0),
@@ -177,10 +177,10 @@ class _EditProductPageState extends State<EditProductPage> {
                       style:
                       const TextStyle(fontSize: 14.0, color: Colors.black),
                       decoration: const InputDecoration(
-                        fillColor: Color.fromARGB(255, 255, 246, 218),
+                        fillColor: const Color.fromARGB(255, 255, 246, 218),
                         hintText: 'Цена товара',
                         hintStyle:
-                        TextStyle(fontSize: 14.0, color: Colors.grey),
+                        const TextStyle(fontSize: 14.0, color: Colors.grey),
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                                 color: Color.fromRGBO(158, 158, 158, 1.0),

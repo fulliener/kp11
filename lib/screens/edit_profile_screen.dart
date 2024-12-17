@@ -61,7 +61,8 @@ class _EditPageState extends State<EditPage> {
           backgroundColor: Colors.grey[200],
         ),
         body: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics:
+            BouncingScrollPhysics(), // Optional for a smoother scroll experience
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -86,16 +87,20 @@ class _EditPageState extends State<EditPage> {
                   Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: TextField(
-                      style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                      style:
+                      const TextStyle(fontSize: 14.0, color: Colors.black),
                       decoration: const InputDecoration(
                         hintText: 'Картинка',
-                        hintStyle: TextStyle(fontSize: 14.0, color: Colors.grey),
+                        hintStyle:
+                        const TextStyle(fontSize: 14.0, color: Colors.grey),
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.grey, width: 1.0)),
+                                color: Colors.grey,
+                                width: 1.0)),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.grey, width: 2.0)),
+                                color: Colors.grey,
+                                width: 2.0)),
                       ),
                       controller: imageController,
                       onChanged: (text) {
@@ -106,16 +111,20 @@ class _EditPageState extends State<EditPage> {
                   Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: TextField(
-                      style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                      style:
+                      const TextStyle(fontSize: 14.0, color: Colors.black),
                       decoration: const InputDecoration(
                         hintText: 'Имя',
-                        hintStyle: TextStyle(fontSize: 14.0, color: Colors.grey),
+                        hintStyle:
+                        const TextStyle(fontSize: 14.0, color: Colors.grey),
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.grey, width: 1.0)),
+                                color: Colors.grey,
+                                width: 1.0)),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.grey, width: 2.0)),
+                                color: Colors.grey,
+                                width: 2.0)),
                       ),
                       controller: nameController,
                     ),
@@ -123,17 +132,21 @@ class _EditPageState extends State<EditPage> {
                   Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: TextField(
-                      style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                      style:
+                      const TextStyle(fontSize: 14.0, color: Colors.black),
                       decoration: const InputDecoration(
                         fillColor: Colors.white,
                         hintText: 'Телефон',
-                        hintStyle: TextStyle(fontSize: 14.0, color: Colors.grey),
+                        hintStyle:
+                        const TextStyle(fontSize: 14.0, color: Colors.grey),
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.grey, width: 1.0)),
+                                color: Colors.grey,
+                                width: 1.0)),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.grey, width: 2.0)),
+                                color: Colors.grey,
+                                width: 2.0)),
                       ),
                       controller: phoneController,
                     ),
@@ -141,17 +154,21 @@ class _EditPageState extends State<EditPage> {
                   Padding(
                     padding: const EdgeInsets.all(5.0),
                     child: TextField(
-                      style: const TextStyle(fontSize: 14.0, color: Colors.black),
+                      style:
+                      const TextStyle(fontSize: 14.0, color: Colors.black),
                       decoration: const InputDecoration(
                         fillColor: Colors.white,
                         hintText: 'Почта',
-                        hintStyle: TextStyle(fontSize: 14.0, color: Colors.grey),
+                        hintStyle:
+                        const TextStyle(fontSize: 14.0, color: Colors.grey),
                         enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.grey, width: 1.0)),
+                                color: Colors.grey,
+                                width: 1.0)),
                         focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                                color: Colors.grey, width: 2.0)),
+                                color: Colors.grey,
+                                width: 2.0)),
                       ),
                       controller: mailController,
                     ),
